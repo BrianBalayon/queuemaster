@@ -5,15 +5,16 @@ import ListGroup from "react-bootstrap/ListGroup";
 const CurrentMatchesCard = ({ currentMatches }) => {
    const courts = ["Court 1", "Court 2", "court 3"];
 
+   console.log(currentMatches)
    return (
-      <CardGroup>
+      <CardGroup key={JSON.stringify(currentMatches)}>
          {currentMatches.map((match, index) => (
-            <Card>
+            <Card key={JSON.stringify(match)}>
                <Card.Header>{courts[index]}</Card.Header>
                <Card.Body>
                   <ListGroup variant="flush">
                      {match.map((player) => (
-                        <ListGroup.Item>{player.name}</ListGroup.Item>
+                        <ListGroup.Item key={player.name}>{player.name}</ListGroup.Item>
                      ))}
                   </ListGroup>
                </Card.Body>

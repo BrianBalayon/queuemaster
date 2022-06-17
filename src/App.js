@@ -8,16 +8,16 @@ import CurrentMatchesCard from './components/currentMatchesCards';
 function App() {
 
   const players = [...TEST_PLAYERS];
-  const groups = getAllGroups(players);
+  const allMatches = getAllGroups(players);
 
-  const [currentMatches, setCurrentMatches] = useState(groups.slice(0, 3));
+  const [currentMatches, setCurrentMatches] = useState(allMatches.slice(0, 3));
 
   return (
     <div className="app">
       <CurrentMatchesCard currentMatches={currentMatches} />
       <PlayerGrid 
         allPlayers={players}
-        groups={groups} 
+        allMatches={allMatches} 
         currentMatches={currentMatches}
         setCurrentMatches={setCurrentMatches} />
     </div>
