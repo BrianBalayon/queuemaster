@@ -15,6 +15,7 @@ const PlayerGrid = ({
    allMatches,
    currentMatches,
    setCurrentMatches,
+   numCourts,
 }) => {
    const [players, setPlayers] = useState(allPlayers);
    const [matches, setMatches] = useState(allMatches);
@@ -39,8 +40,8 @@ const PlayerGrid = ({
       const newQueue = sortByPriority(matches);
       setMatches(newQueue);
       let nextMatchIndex = 0;
-      while(!areAllPlayersFree(currentMatches, newQueue[nextMatchIndex])) {
-        nextMatchIndex += 1;
+      while (!areAllPlayersFree(currentMatches, newQueue[nextMatchIndex])) {
+         nextMatchIndex += 1;
       }
       let newCurrentMatches = [...currentMatches];
       newCurrentMatches[matchIndex] = newQueue[nextMatchIndex];
@@ -48,7 +49,7 @@ const PlayerGrid = ({
    };
 
    let buttons = [];
-   for (let index = 0; index < currentMatches.length; index += 1) {
+   for (let index = 0; index < numCourts; index += 1) {
       const buttonHandler = () => handleNextGame(index);
       buttons.push(
          <Button

@@ -10,7 +10,8 @@ function App() {
   const players = [...TEST_PLAYERS];
   const allMatches = getAllGroups(players);
 
-  const [currentMatches, setCurrentMatches] = useState(allMatches.slice(0, 3));
+  const [currentMatches, setCurrentMatches] = useState([[],[],[]]);
+  const [numCourts, setNumCourts] = useState(3);
 
   return (
     <div className="app">
@@ -19,7 +20,8 @@ function App() {
         allPlayers={players}
         allMatches={allMatches} 
         currentMatches={currentMatches}
-        setCurrentMatches={setCurrentMatches} />
+        setCurrentMatches={setCurrentMatches}
+        numCourts={numCourts} />
     </div>
   );
 }
