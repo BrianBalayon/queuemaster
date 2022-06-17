@@ -1,12 +1,25 @@
-import { getAllGroups } from "./logic/queue";
+import './App.css';
+import { useState } from 'react';
+import { getAllGroups } from "./logic/generateQueue";
+import { TEST_PLAYERS } from './constants/testPlayers';
+import PlayerGrid from "./components/playerGrid";
+import CurrentMatchesCard from './components/currentMatchesCards';
 
 function App() {
-  
-  const groups = getAllGroups();
-  console.log(groups);
+
+  const players = [...TEST_PLAYERS];
+  const groups = getAllGroups(players);
+
+  const [currentMatches, setCurrentMatches] = useState(groups.slice(0, 3));
 
   return (
-    <div className="App">
+    <div className="app">
+      <CurrentMatchesCard currentMatches={currentMatches} />
+      <PlayerGrid 
+        allPlayers={players}
+        groups={groups} 
+        currentMatches={currentMatches}
+        setCurrentMatches={setCurrentMatches} />
     </div>
   );
 }
