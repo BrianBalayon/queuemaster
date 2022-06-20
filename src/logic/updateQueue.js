@@ -21,6 +21,7 @@ export const sortByPriority = (allGroups = [[]]) => {
 export const resetPriority = (allPlayers = [], name = "") => {
    const player = allPlayers.find((player) => player.name === name);
    player.priority = 0;
+   player.gamesPlayed++;
 };
 
 export const isPlayerMidgame = (currentMatches = [[]], name = "") => {

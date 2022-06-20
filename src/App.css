@@ -1,12 +1,9 @@
 .app {
     margin: auto;
     max-width: 1000px;
+    padding: 10px;
 }
 
 .player-card {
     margin: 10px 0px;
-}
-
-.next-game-btn {
-    margin: 0px 5px;
 }

@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
 
 const PlayerCard = ({ player }) => {
-   const { name, level, priority } = player;
+   const { name, level, priority, gamesPlayed } = player;
 
    return (
       <Card className="player-card" border="dark">
@@ -9,7 +9,8 @@ const PlayerCard = ({ player }) => {
          <Card.Body>
             <Card.Text>
                Level: {level} |
-               Priority: {priority}
+               Priority: {priority} |
+               Games Played: {gamesPlayed}
             </Card.Text>
          </Card.Body>
       </Card>
