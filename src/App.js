@@ -32,7 +32,6 @@ function App() {
          const { name } = next[playerIndex];
          if (isPlayerMidgame(currentMatches, name)) return false;
       }
-      console.log("TEST TRUE")
       return true;
    };
 
@@ -41,30 +40,33 @@ function App() {
       const key = [];
       players.forEach((player) => {
          const { name, level } = player;
-         key.push({name, level});
+         key.push({ name, level });
       });
       return JSON.stringify(key);
    };
 
    const handleRecordMatch = (match) => {
+      if (match.length === 0) return;
       const matchKey = getMatchKey(match);
       const data = {
          players: match,
-         timestamp: Date.now()
-      }
+         timestamp: new Date(),
+      };
       const toRecord = { ...playedMatches, [matchKey]: data };
       setPlayedMatches(toRecord);
-      console.log(Object.values(toRecord).length, toRecord)
+      console.log(Object.keys(toRecord), toRecord);
    };
 
    const wasMatchPlayed = (match) => {
       const matchKey = getMatchKey(match);
-      console.log(playedMatches.hasOwnProperty(matchKey))
       return playedMatches.hasOwnProperty(matchKey);
    };
 
    const handleNextGame = (matchIndex) => {
-      const newPlayerPriorities = increasePriority(allPlayers, currentMatches.flat());
+      const newPlayerPriorities = increasePriority(
+         allPlayers,
+         currentMatches.flat()
+      );
       currentMatches[matchIndex].forEach((player) =>
          resetPriority(newPlayerPriorities, player.name)
       );
@@ -75,7 +77,9 @@ function App() {
       const newQueue = sortByPriority(queue);
       setMatches(newQueue);
       let nextMatchIndex = 0;
-      while (wasMatchPlayed(newQueue[nextMatchIndex]) || !areAllPlayersFree(currentMatches, newQueue[nextMatchIndex])
+      while (
+         wasMatchPlayed(newQueue[nextMatchIndex]) ||
+         !areAllPlayersFree(currentMatches, newQueue[nextMatchIndex])
       ) {
          nextMatchIndex += 1;
       }
@@ -160,7 +164,7 @@ function App() {
             handleClose={handleCloseRemovePlayerModal}
             handleRemovePlayer={handleRemovePlayer}
          />
-         <PlayerGrid players={players} />
+         <PlayerGrid players={players} playedMatches={playedMatches} />
       </div>
    );
 }
