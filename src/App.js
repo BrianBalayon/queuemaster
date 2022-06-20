@@ -14,18 +14,17 @@ import {
    isPlayerMidgame,
 } from "./logic/updateQueue";
 import { alphabeticalPlayers } from "./logic/utils";
+import { Button } from "react-bootstrap";
 
 function App() {
-   const allPlayers = [...TEST_PLAYERS];
-   const allMatches = getAllGroups(allPlayers);
-
-   const [currentMatches, setCurrentMatches] = useState([[], [], []]);
-   const [numCourts, setNumCourts] = useState(3);
-   const [players, setPlayers] = useState(allPlayers);
-   const [queue, setMatches] = useState(allMatches);
+   const [currentMatches, setCurrentMatches] = useState([[], []]);
+   const [numCourts, setNumCourts] = useState(2);
+   const [players, setPlayers] = useState([]);
+   const [queue, setMatches] = useState([]);
    const [playedMatches, setPlayedMatches] = useState({});
    const [isNewPlayerModalOpen, setNewPlayerModalOpen] = useState(false);
    const [isRemovePlayerModalOpen, setRemovePlayerModalOpen] = useState(false);
+   const [isDemoAvailable, setIsDemoAvailable] = useState(true);
 
    const areAllPlayersFree = (currentMatches, next) => {
       for (let playerIndex = 0; playerIndex < next.length; playerIndex += 1) {
@@ -140,6 +139,17 @@ function App() {
       setRemovePlayerModalOpen(false);
    };
 
+   const handleAddTestPlayers = () => {
+      const allPlayers = [...TEST_PLAYERS];
+      const allMatches = getAllGroups(allPlayers);
+      setPlayers(allPlayers);
+      setMatches(allMatches);
+      setIsDemoAvailable(false);
+      alert(
+         'Demo players have been loaded. Open "Players" tab to view. You may use the app as normal.'
+      );
+   };
+
    return (
       <div className="app">
          <h1 className="text-center">Q Master</h1>
@@ -166,6 +176,14 @@ function App() {
             handleRemovePlayer={handleRemovePlayer}
          />
          <PlayerGrid players={players} playedMatches={playedMatches} />
+         {isDemoAvailable && (
+            <Button
+               variant="warning"
+               className="full-width-btn"
+               onClick={handleAddTestPlayers}>
+               Start Demo Mode
+            </Button>
+         )}
       </div>
    );
 }

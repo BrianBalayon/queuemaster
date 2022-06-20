@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, ButtonToolbar } from "react-bootstrap";
+import { Button, ButtonGroup } from "react-bootstrap";
 
 const QueueControls = ({
    numCourts,
@@ -18,25 +18,29 @@ const QueueControls = ({
    }
 
    return (
-      <div className='queue-control-panel'>
-         <ButtonGroup className='queue-control-btn-group'>{nextMatchButtons}</ButtonGroup>
-         <ButtonGroup className='queue-control-btn-group'>
+      <div className="queue-control-panel">
+         <ButtonGroup className="queue-control-btn-group">
+            {nextMatchButtons}
+         </ButtonGroup>
+         <ButtonGroup className="queue-control-btn-group">
             <Button
                variant="primary"
                onClick={() => setNumCourts(numCourts + 1)}>
                Add Court
             </Button>
             <Button
-               variant="primary"
+               variant="outline-danger"
                onClick={() => setNumCourts(numCourts - 1)}>
                Remove Court
             </Button>
          </ButtonGroup>
-         <ButtonGroup className='queue-control-btn-group'>
+         <ButtonGroup className="queue-control-btn-group">
             <Button variant="primary" onClick={handleOpenNewPlayerModal}>
                Add Player
             </Button>
-            <Button variant="primary" onClick={handleOpenRemovePlayerModal}>
+            <Button
+               variant="outline-danger"
+               onClick={handleOpenRemovePlayerModal}>
                Remove Player
             </Button>
          </ButtonGroup>
