@@ -64,7 +64,7 @@ function App() {
 
    const handleNextGame = (matchIndex) => {
       const newPlayerPriorities = increasePriority(
-         allPlayers,
+         players,
          currentMatches.flat()
       );
       currentMatches[matchIndex].forEach((player) =>
@@ -142,6 +142,7 @@ function App() {
 
    return (
       <div className="app">
+         <h1 className="text-center">Q Master</h1>
          <CurrentMatchesCard
             currentMatches={currentMatches}
             numCourts={numCourts}

@@ -12,15 +12,15 @@ const QueueControls = ({
       const buttonHandler = () => handleNextGame(index);
       nextMatchButtons.push(
          <Button key={index} variant="primary" onClick={buttonHandler}>
-            Next Game Court {index + 1}
+            {index === 0 ? "Next Game" : ""} Court {index + 1}
          </Button>
       );
    }
 
    return (
-      <ButtonToolbar>
-         <ButtonGroup>{nextMatchButtons}</ButtonGroup>
-         <ButtonGroup>
+      <div className='queue-control-panel'>
+         <ButtonGroup className='queue-control-btn-group'>{nextMatchButtons}</ButtonGroup>
+         <ButtonGroup className='queue-control-btn-group'>
             <Button
                variant="primary"
                onClick={() => setNumCourts(numCourts + 1)}>
@@ -32,17 +32,15 @@ const QueueControls = ({
                Remove Court
             </Button>
          </ButtonGroup>
-         <ButtonGroup>
+         <ButtonGroup className='queue-control-btn-group'>
             <Button variant="primary" onClick={handleOpenNewPlayerModal}>
                Add Player
             </Button>
-            <Button
-               variant="primary"
-               onClick={handleOpenRemovePlayerModal}>
+            <Button variant="primary" onClick={handleOpenRemovePlayerModal}>
                Remove Player
             </Button>
          </ButtonGroup>
-      </ButtonToolbar>
+      </div>
    );
 };
 

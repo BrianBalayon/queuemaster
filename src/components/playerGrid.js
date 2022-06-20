@@ -8,24 +8,23 @@ const PlayerGrid = ({ players, playedMatches }) => {
 
    const getListOfNames = (players) => {
       const names = players.map((player) => player.name);
-      return names.join(', ')
+      return names.join(", ");
    };
 
    const getMatchTime = (date = new Date()) => {
       try {
          return date.toLocaleTimeString();
-      } 
-      catch(error) {
-         return ''
+      } catch (error) {
+         return "";
       }
-   }
+   };
 
    return (
       <Accordion className="player-card">
          <Accordion.Item eventKey="0">
             <Accordion.Header>Players</Accordion.Header>
             <Accordion.Body>
-               <Row xs={1} md={2} lg={3}>
+               <Row xs={2} md={3} lg={5}>
                   {players.map((player) => (
                      <Col key={JSON.stringify(player)}>
                         <PlayerCard
@@ -40,7 +39,7 @@ const PlayerGrid = ({ players, playedMatches }) => {
          <Accordion.Item eventKey="1">
             <Accordion.Header>Played Matches</Accordion.Header>
             <Accordion.Body>
-               <Table striped bordered hover>
+               <Table striped hover>
                   <thead>
                      <tr>
                         <th>Time</th>
@@ -49,7 +48,7 @@ const PlayerGrid = ({ players, playedMatches }) => {
                   </thead>
                   <tbody>
                      {matchesByTime.map((match) => (
-                        <tr>
+                        <tr key={JSON.stringify(match)}>
                            <td>{getMatchTime(match.timestamp)}</td>
                            <td>{getListOfNames(match.players)}</td>
                         </tr>
