@@ -1,6 +1,12 @@
 import { Button, ButtonGroup, ButtonToolbar } from "react-bootstrap";
 
-const QueueControls = ({ numCourts, setNumCourts, handleNextGame, handleOpenNewPlayerModal }) => {
+const QueueControls = ({
+   numCourts,
+   setNumCourts,
+   handleNextGame,
+   handleOpenNewPlayerModal,
+   handleOpenRemovePlayerModal,
+}) => {
    let nextMatchButtons = [];
    for (let index = 0; index < numCourts; index += 1) {
       const buttonHandler = () => handleNextGame(index);
@@ -17,24 +23,22 @@ const QueueControls = ({ numCourts, setNumCourts, handleNextGame, handleOpenNewP
          <ButtonGroup>
             <Button
                variant="primary"
-               onClick={() => setNumCourts(numCourts+1)}>
+               onClick={() => setNumCourts(numCourts + 1)}>
                Add Court
             </Button>
             <Button
                variant="primary"
-               onClick={() => setNumCourts(numCourts-1)}>
+               onClick={() => setNumCourts(numCourts - 1)}>
                Remove Court
             </Button>
          </ButtonGroup>
          <ButtonGroup>
-            <Button
-               variant="primary"
-               onClick={handleOpenNewPlayerModal}>
+            <Button variant="primary" onClick={handleOpenNewPlayerModal}>
                Add Player
             </Button>
             <Button
                variant="primary"
-               onClick={() => setNumCourts(numCourts-1)}>
+               onClick={handleOpenRemovePlayerModal}>
                Remove Player
             </Button>
          </ButtonGroup>

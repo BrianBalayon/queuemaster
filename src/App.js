@@ -6,6 +6,7 @@ import PlayerGrid from "./components/playerGrid";
 import CurrentMatchesCard from "./components/currentMatchesCards";
 import QueueControls from "./components/queueControls";
 import NewPlayerModal from "./components/newPlayerModal";
+import RemovePlayerModal from "./components/removePlayerModal";
 import {
    increasePriority,
    sortByPriority,
@@ -23,6 +24,7 @@ function App() {
    const [queue, setMatches] = useState(allMatches);
    const [playedMatches, setPlayedMatches] = useState([]);
    const [isNewPlayerModalOpen, setNewPlayerModalOpen] = useState(false);
+   const [isRemovePlayerModalOpen, setRemovePlayerModalOpen] = useState(false);
 
    const areAllPlayersFree = (currentMatches, next) => {
       for (let playerIndex = 0; playerIndex < next.length; playerIndex += 1) {
@@ -59,6 +61,13 @@ function App() {
       setNumCourts(newNum);
    };
 
+   const handleChangePlayers = (players) => {
+      setPlayers(players);
+      const newMatches = getAllGroups(players);
+      const newQueue = sortByPriority(newMatches);
+      setMatches(newQueue);
+   }
+
    const handleAddPlayer = (name, level) => {
       const newPlayer = {
          name,
@@ -67,10 +76,18 @@ function App() {
          gamesPlayed: 0,
       };
       const newPlayerList = [...players, newPlayer];
-      setPlayers(newPlayerList);
-      const newMatches = getAllGroups(newPlayerList);
-      const newQueue = sortByPriority(newMatches);
-      setMatches(newQueue);
+      handleChangePlayers(newPlayerList)
+   };
+
+   const handleRemovePlayer = (toRemove) => {
+      console.log(toRemove)
+      const toSet = [...players];
+      const playerIndex = toSet.findIndex(
+         (player) =>
+            player.name === toRemove.name && player.level === toRemove.level
+      );
+      toSet.splice(playerIndex, 1);
+      handleChangePlayers(toSet)
    };
 
    const handleOpenNewPlayerModal = () => {
@@ -79,6 +96,14 @@ function App() {
 
    const handleCloseNewPlayerModal = () => {
       setNewPlayerModalOpen(false);
+   };
+
+   const handleOpenRemovePlayerModal = () => {
+      setRemovePlayerModalOpen(true);
+   };
+
+   const handleCloseRemovePlayerModal = () => {
+      setRemovePlayerModalOpen(false);
    };
 
    return (
@@ -92,11 +117,18 @@ function App() {
             handleNextGame={handleNextGame}
             setNumCourts={handleChangeNumCourts}
             handleOpenNewPlayerModal={handleOpenNewPlayerModal}
+            handleOpenRemovePlayerModal={handleOpenRemovePlayerModal}
          />
          <NewPlayerModal
             isOpen={isNewPlayerModalOpen}
             handleClose={handleCloseNewPlayerModal}
             handleAddPlayer={handleAddPlayer}
+         />
+         <RemovePlayerModal
+            isOpen={isRemovePlayerModalOpen}
+            players={players}
+            handleClose={handleCloseRemovePlayerModal}
+            handleRemovePlayer={handleRemovePlayer}
          />
          <PlayerGrid players={players} />
       </div>
