@@ -1,6 +1,9 @@
-export const increasePriority = (allPlayers = []) => {
+export const increasePriority = (allPlayers = [], except = []) => {
+   const exceptNames = except.map((player) => player.name);
    const increased = [...allPlayers];
-   increased.map((entry) => entry.priority++);
+   increased.forEach((entry) => {
+      if (!exceptNames.find((name) => entry.name === name)) entry.priority++;
+   });
    return increased;
 };
 
@@ -25,11 +28,11 @@ export const resetPriority = (allPlayers = [], name = "") => {
 };
 
 export const isPlayerMidgame = (currentMatches = [[]], name = "") => {
-    let isMidGame = false;
-    currentMatches.forEach((match) => {
-        if (match.filter((player) => player.name === name).length > 0) {
-            isMidGame = true;
-        }
-    });
-    return isMidGame
-}
+   let isMidGame = false;
+   currentMatches.forEach((match) => {
+      if (match.filter((player) => player.name === name).length > 0) {
+         isMidGame = true;
+      }
+   });
+   return isMidGame;
+};

@@ -6,7 +6,7 @@ const CurrentMatchesCard = ({ currentMatches }) => {
    return (
       <CardGroup key={JSON.stringify(currentMatches)}>
          {currentMatches.map((match, index) => (
-            <Card key={JSON.stringify(match)}>
+            <Card key={JSON.stringify(match)+index}>
                <Card.Header>Court {index+1}</Card.Header>
                <Card.Body>
                   <ListGroup variant="flush">

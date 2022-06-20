@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
+import { alphabeticalPlayers } from "../logic/utils";
 
 const RemovePlayerModal = ({
    isOpen,
@@ -7,9 +8,7 @@ const RemovePlayerModal = ({
    handleClose,
    handleRemovePlayer,
 }) => {
-   const playersAlhpabetical = [...players].sort((prior, after) =>
-      prior.name.localeCompare(after.name)
-   );
+   const playersAlhpabetical = alphabeticalPlayers(players);
 
    const [player, setPlayer] = useState(playersAlhpabetical[0]);
    const [isVerified, setVerified] = useState(false);
@@ -30,7 +29,7 @@ const RemovePlayerModal = ({
    };
 
    const playerOptions = playersAlhpabetical.map((player) => (
-      <option value={JSON.stringify(player)}>
+      <option value={JSON.stringify(player)} key={JSON.stringify(player)}>
          {player.name} ({player.level})
       </option>
    ));

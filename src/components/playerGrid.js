@@ -9,7 +9,7 @@ const PlayerGrid = ({ players }) => {
             <Accordion.Body>
                <Row xs={1} md={2} lg={3}>
                   {players.map((player) => (
-                     <Col>
+                     <Col key={JSON.stringify(player)}>
                         <PlayerCard
                            key={`${player.name}${player.priority}`}
                            player={player}

@@ -13,6 +13,7 @@ import {
    resetPriority,
    isPlayerMidgame,
 } from "./logic/updateQueue";
+import { alphabeticalPlayers } from "./logic/utils";
 
 function App() {
    const allPlayers = [...TEST_PLAYERS];
@@ -22,7 +23,7 @@ function App() {
    const [numCourts, setNumCourts] = useState(3);
    const [players, setPlayers] = useState(allPlayers);
    const [queue, setMatches] = useState(allMatches);
-   const [playedMatches, setPlayedMatches] = useState([]);
+   const [playedMatches, setPlayedMatches] = useState({});
    const [isNewPlayerModalOpen, setNewPlayerModalOpen] = useState(false);
    const [isRemovePlayerModalOpen, setRemovePlayerModalOpen] = useState(false);
 
@@ -31,11 +32,39 @@ function App() {
          const { name } = next[playerIndex];
          if (isPlayerMidgame(currentMatches, name)) return false;
       }
+      console.log("TEST TRUE")
       return true;
    };
 
+   const getMatchKey = (match) => {
+      const players = alphabeticalPlayers(match);
+      const key = [];
+      players.forEach((player) => {
+         const { name, level } = player;
+         key.push({name, level});
+      });
+      return JSON.stringify(key);
+   };
+
+   const handleRecordMatch = (match) => {
+      const matchKey = getMatchKey(match);
+      const data = {
+         players: match,
+         timestamp: Date.now()
+      }
+      const toRecord = { ...playedMatches, [matchKey]: data };
+      setPlayedMatches(toRecord);
+      console.log(Object.values(toRecord).length, toRecord)
+   };
+
+   const wasMatchPlayed = (match) => {
+      const matchKey = getMatchKey(match);
+      console.log(playedMatches.hasOwnProperty(matchKey))
+      return playedMatches.hasOwnProperty(matchKey);
+   };
+
    const handleNextGame = (matchIndex) => {
-      const newPlayerPriorities = increasePriority(allPlayers);
+      const newPlayerPriorities = increasePriority(allPlayers, currentMatches.flat());
       currentMatches[matchIndex].forEach((player) =>
          resetPriority(newPlayerPriorities, player.name)
       );
@@ -46,10 +75,12 @@ function App() {
       const newQueue = sortByPriority(queue);
       setMatches(newQueue);
       let nextMatchIndex = 0;
-      while (!areAllPlayersFree(currentMatches, newQueue[nextMatchIndex])) {
+      while (wasMatchPlayed(newQueue[nextMatchIndex]) || !areAllPlayersFree(currentMatches, newQueue[nextMatchIndex])
+      ) {
          nextMatchIndex += 1;
       }
       let newCurrentMatches = [...currentMatches];
+      handleRecordMatch(newQueue[nextMatchIndex]);
       newCurrentMatches[matchIndex] = newQueue[nextMatchIndex];
       setCurrentMatches(newCurrentMatches);
    };
@@ -66,7 +97,7 @@ function App() {
       const newMatches = getAllGroups(players);
       const newQueue = sortByPriority(newMatches);
       setMatches(newQueue);
-   }
+   };
 
    const handleAddPlayer = (name, level) => {
       const newPlayer = {
@@ -76,18 +107,17 @@ function App() {
          gamesPlayed: 0,
       };
       const newPlayerList = [...players, newPlayer];
-      handleChangePlayers(newPlayerList)
+      handleChangePlayers(newPlayerList);
    };
 
    const handleRemovePlayer = (toRemove) => {
-      console.log(toRemove)
       const toSet = [...players];
       const playerIndex = toSet.findIndex(
          (player) =>
             player.name === toRemove.name && player.level === toRemove.level
       );
       toSet.splice(playerIndex, 1);
-      handleChangePlayers(toSet)
+      handleChangePlayers(toSet);
    };
 
    const handleOpenNewPlayerModal = () => {
