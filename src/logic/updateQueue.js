@@ -7,14 +7,22 @@ export const increasePriority = (allPlayers = [], except = []) => {
    return increased;
 };
 
-export const sortByPriority = (allGroups = [[]]) => {
+const getAverageGames = (players) => {
+   const totalCount = players.reduce((total, currentPlayer) => {
+      return total + currentPlayer.gamesPlayed;
+   }, 0);
+   return totalCount / players.length
+}
+
+export const sortByPriority = (allGroups = [[]], players = []) => {
    const sorted = [...allGroups];
+   const averageGames = getAverageGames(players);
    sorted.sort((higher, lower) => {
       const higherPriority = higher.reduce((total, currentPlayer) => {
-         return total + currentPlayer.priority;
+         return total + (currentPlayer.priority - (currentPlayer.gamesPlayed - averageGames));
       }, 0);
       const lowerPriority = lower.reduce((total, currentPlayer) => {
-         return total + currentPlayer.priority;
+         return total + (currentPlayer.priority - (currentPlayer.gamesPlayed - averageGames));
       }, 0);
       return lowerPriority - higherPriority;
    });

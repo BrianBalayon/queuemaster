@@ -53,12 +53,15 @@ function App() {
       };
       const toRecord = { ...playedMatches, [matchKey]: data };
       setPlayedMatches(toRecord);
-      console.log(Object.keys(toRecord), toRecord);
    };
 
    const wasMatchPlayed = (match) => {
       const matchKey = getMatchKey(match);
       return playedMatches.hasOwnProperty(matchKey);
+   };
+
+   const canPlayAgain = () => {
+      return currentMatches.flat().length + 8 > players.length;
    };
 
    const handleNextGame = (matchIndex) => {
@@ -73,12 +76,14 @@ function App() {
          (lower, higher) => higher.priority - lower.priority
       );
       setPlayers(newPlayerPriorities);
-      const newQueue = sortByPriority(queue);
+      const newQueue = sortByPriority(queue, players);
       setMatches(newQueue);
       let nextMatchIndex = 0;
       while (
          wasMatchPlayed(newQueue[nextMatchIndex]) ||
-         !areAllPlayersFree(currentMatches, newQueue[nextMatchIndex])
+         (canPlayAgain()
+            ? false
+            : !areAllPlayersFree(currentMatches, newQueue[nextMatchIndex]))
       ) {
          nextMatchIndex += 1;
       }
